@@ -1,6 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using D6PA5M_HFT_2021221.Data;
+using D6PA5M_HFT_2021221.Models;
+using D6PA5M_HFT_2021221.Repository;
 
 namespace D6PA5M_HFT_2021221.Client
 {
@@ -8,13 +9,18 @@ namespace D6PA5M_HFT_2021221.Client
     {
         static void Main(string[] args)
         {
-            // For testing purposes - project reference for D6PA5M_HFT_2021221.Data will be removed
+            // For testing purposes - Data and Repository layer usages will be removed.
             AlbumStoreDbContext dbContext = new AlbumStoreDbContext();
 
-            dbContext.Artists.ToArray();
-            dbContext.Albums.ToArray();
-            dbContext.Genres.ToArray();
-            dbContext.RecordCompanies.ToArray();
+            ArtistRepository artistRepo = new ArtistRepository(dbContext);
+            AlbumRepository albumRepo = new AlbumRepository(dbContext);
+            GenreRepository genreRepo = new GenreRepository(dbContext);
+            RecordCompanyRepository recordCompanyRepo = new RecordCompanyRepository(dbContext);
+
+            IQueryable<Artist> artists = artistRepo.ReadAll();
+            IQueryable<Album> albums = albumRepo.ReadAll();
+            IQueryable<Genre> genres = genreRepo.ReadAll();
+            IQueryable<RecordCompany> recordCompanies = recordCompanyRepo.ReadAll();
 
             ;
         }
