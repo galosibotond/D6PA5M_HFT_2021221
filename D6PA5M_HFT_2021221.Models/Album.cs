@@ -29,6 +29,10 @@ namespace D6PA5M_HFT_2021221.Models
         [ToString]
         public int Stock { get; set; }
 
+        [Required]
+        [ToString]
+        public int Price { get; set; }
+
         [NotMapped]
         public virtual Artist Artist { get; set; }
 

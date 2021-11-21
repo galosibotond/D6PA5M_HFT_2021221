@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Threading;
 using D6PA5M_HFT_2021221.Data;
 using D6PA5M_HFT_2021221.Logic;
 using D6PA5M_HFT_2021221.Models;
@@ -11,6 +13,8 @@ namespace D6PA5M_HFT_2021221.Client
     {
         static void Main(string[] args)
         {
+            //Thread.Sleep(10000);
+
             // For testing purposes - Logic and Repository layer usages will be removed.
             AlbumStoreDbContext dbContext = new AlbumStoreDbContext();
 
@@ -24,10 +28,12 @@ namespace D6PA5M_HFT_2021221.Client
             IGenreLogic genreLogic = new GenreLogic(genreRepo);
             IRecordCompanyLogic recordCompanyLogic = new RecordCompanyLogic(recordCompanyRepo);
 
-            IEnumerable<Artist> artists = artistLogic.ReadAllArtists();
-            IEnumerable<Album> albums = albumLogic.ReadAllAlbums();
-            IEnumerable<Genre> genres = genreLogic.ReadAllGenres();
-            IEnumerable<RecordCompany> recordCompanies = recordCompanyLogic.ReadAllRecordCompanies();
+            IEnumerable a1 = albumLogic.GetAlbumsCountByCountry();
+            double a2 = albumLogic.GetAverageAlbumPrice();
+            IEnumerable a3 = albumLogic.GetAverageAlbumPriceByGenres();
+            IEnumerable a4 = albumLogic.GetAverageAlbumPriceByRecordCompanies();
+            IEnumerable a5 = artistLogic.GetOverallStockByArtists();
+            IEnumerable a6 = artistLogic.GetMostUnselledAlbumByArtists();
 
             ;
         }

@@ -41,6 +41,7 @@ namespace D6PA5M_HFT_2021221.Repository
             oldAlbum.Id = album.Id;
             oldAlbum.Title = album.Title;
             oldAlbum.Stock = album.Stock;
+            oldAlbum.Price = album.Price;
             db.SaveChanges();
         }
     }

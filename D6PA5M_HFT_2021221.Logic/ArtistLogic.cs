@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using D6PA5M_HFT_2021221.Models;
 using D6PA5M_HFT_2021221.Repository.Interfaces;
 
@@ -39,6 +41,35 @@ namespace D6PA5M_HFT_2021221.Logic
         public void UpdateArtist(Artist artist)
         {
             this.artistRepository.Update(artist);
+        }
+
+        public IEnumerable GetOverallStockByArtists()
+        {
+            var overallStockByArtistsQuery = from artist in ReadAllArtists()
+                                             group artist by artist.Name into g
+                                             orderby g.Key
+                                             select new
+                                             {
+                                                 AlbumArtist = g.Key,
+                                                 OverallStock = g.Select(a => a.Albums.Sum(alb => alb.Stock)).FirstOrDefault()
+                                             };
+
+            return overallStockByArtistsQuery.ToList();
+        }
+
+        public IEnumerable GetMostUnselledAlbumByArtists()
+        {
+            var mostUnselledAlbumByArtistsQuery = from artist in ReadAllArtists()
+                                                  group artist by artist.Name into g
+                                                  orderby g.Key
+                                                  select new
+                                                  {
+                                                      AlbumArtist = g.Key,
+                                                      MostUnselledAlbum = 
+                                                      g.Select(art => art.Albums.OrderByDescending(alb => alb.Stock).Select(alb => alb.Title)).FirstOrDefault().FirstOrDefault()
+                                                  };
+
+            return mostUnselledAlbumByArtistsQuery.ToList();
         }
     }
 }

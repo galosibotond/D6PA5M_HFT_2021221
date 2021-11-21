@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using D6PA5M_HFT_2021221.Models;
 
 namespace D6PA5M_HFT_2021221.Logic
@@ -10,5 +11,9 @@ namespace D6PA5M_HFT_2021221.Logic
         Album ReadAlbum(int id);
         IEnumerable<Album> ReadAllAlbums();
         void UpdateAlbum(Album album);
+        double GetAverageAlbumPrice();
+        IEnumerable GetAverageAlbumPriceByGenres();
+        IEnumerable GetAverageAlbumPriceByRecordCompanies();
+        IEnumerable GetAlbumsCountByCountry();
     }
 }
