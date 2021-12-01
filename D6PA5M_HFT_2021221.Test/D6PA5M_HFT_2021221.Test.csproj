@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\D6PA5M_HFT_2021221.Data\D6PA5M_HFT_2021221.Data.csproj" />
     <ProjectReference Include="..\D6PA5M_HFT_2021221.Logic\D6PA5M_HFT_2021221.Logic.csproj" />
     <ProjectReference Include="..\D6PA5M_HFT_2021221.Models\D6PA5M_HFT_2021221.Models.csproj" />
     <ProjectReference Include="..\D6PA5M_HFT_2021221.Repository\D6PA5M_HFT_2021221.Repository.csproj" />
