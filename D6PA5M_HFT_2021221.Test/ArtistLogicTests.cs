@@ -121,6 +121,38 @@ namespace D6PA5M_HFT_2021221.Test
                 artistsInRepository.Where(artist => artist.Id == artistToUpdate.Id).FirstOrDefault().GenreId, Is.EqualTo(artistToUpdate.GenreId));
         }
 
+        [Test]
+        public void GivenArtistLogic_WhenGetMostUnselledAlbumByArtists_ThenAlbumNameIsCorrectForArtist()
+        {
+            // Arrange
+            List<Artist> artistsInRepository = GetArtistsInRepository();
+            IArtistRepository artistRepository = GetArtistRepository(artistsInRepository);
+            IArtistLogic artistLogic = new ArtistLogic(artistRepository);
+
+            // Action
+            IEnumerable<KeyValuePair<string, string>> mostUnselledAlbumByArtists = artistLogic.GetMostUnselledAlbumByArtists();
+
+            // Assert
+            Assert.That(mostUnselledAlbumByArtists.FirstOrDefault().Key, Is.EqualTo("FirstArtist"));
+            Assert.That(mostUnselledAlbumByArtists.FirstOrDefault().Value, Is.EqualTo("FourthAlbum"));
+        }
+
+        [Test]
+        public void GivenArtistLogic_WhenGetOverallStockByArtists_ThenAlbumNameIsCorrectForArtist()
+        {
+            // Arrange
+            List<Artist> artistsInRepository = GetArtistsInRepository();
+            IArtistRepository artistRepository = GetArtistRepository(artistsInRepository);
+            IArtistLogic artistLogic = new ArtistLogic(artistRepository);
+
+            // Action
+            IEnumerable<KeyValuePair<string, int>> overallStockByArtists = artistLogic.GetOverallStockByArtists();
+
+            // Assert
+            Assert.That(overallStockByArtists.FirstOrDefault().Key, Is.EqualTo("FirstArtist"));
+            Assert.That(overallStockByArtists.FirstOrDefault().Value, Is.EqualTo(8321));
+        }
+
         private IArtistRepository GetArtistRepository(
                                                       List<Artist> artistsInRepository, 
                                                       int artistIdToDoModificationWith = 0,
@@ -168,6 +200,108 @@ namespace D6PA5M_HFT_2021221.Test
 
         public List<Artist> GetArtistsInRepository()
         {
+            List<Album> firstArtistAlbums = new List<Album>
+            {
+                new Album()
+                {
+                    Id = 0001,
+                    Title = "FirstAlbum",
+                    Stock = 1000,
+                    RecordCompanyId = 0101,
+                    Price = 1990,
+                },
+
+                new Album()
+                {
+                    Id = 0002,
+                    Title = "SecondAlbum",
+                    Stock = 150,
+                    RecordCompanyId = 0101,
+                    Price = 2490,
+                },
+
+                new Album()
+                {
+                    Id = 0003,
+                    Title = "ThirdAlbum",
+                    Stock = 3214,
+                    RecordCompanyId = 0102,
+                    Price = 4990,
+                },
+
+                new Album()
+                {
+                    Id = 0004,
+                    Title = "FourthAlbum",
+                    Stock = 3957,
+                    RecordCompanyId = 0103,
+                    Price = 2990,
+                }
+            };
+
+            List<Album> secondArtistAlbums = new List<Album>
+            {
+                new Album()
+                {
+                    Id = 0005,
+                    Title = "FirstAlbum",
+                    Stock = 100,
+                    RecordCompanyId = 0101,
+                    Price = 1990,
+                }
+            };
+
+            List<Album> thirdArtistAlbums = new List<Album>
+            {
+                new Album()
+                {
+                    Id = 0006,
+                    Title = "FirstAlbum",
+                    Stock = 1000,
+                    RecordCompanyId = 0101,
+                    Price = 1990,
+                },
+
+                new Album()
+                {
+                    Id = 0007,
+                    Title = "SecondAlbum",
+                    Stock = 879,
+                    RecordCompanyId = 0101,
+                    Price = 2490,
+                }
+            };
+
+            List<Album> fourthArtistAlbums = new List<Album>
+            {
+                new Album()
+                {
+                    Id = 0008,
+                    Title = "FirstAlbum",
+                    Stock = 154,
+                    RecordCompanyId = 0101,
+                    Price = 1990,
+                },
+
+                new Album()
+                {
+                    Id = 0009,
+                    Title = "SecondAlbum",
+                    Stock = 31,
+                    RecordCompanyId = 0101,
+                    Price = 2490,
+                },
+
+                new Album()
+                {
+                    Id = 0010,
+                    Title = "ThirdAlbum",
+                    Stock = 10,
+                    RecordCompanyId = 0102,
+                    Price = 4990,
+                },
+            };
+
             return new List<Artist>
             {
                 new Artist()
@@ -176,7 +310,8 @@ namespace D6PA5M_HFT_2021221.Test
                     Name = "FirstArtist",
                     Country = "UnknownCountry",
                     FoundationDate = DateTime.Now,
-                    GenreId = 0101
+                    GenreId = 0101,
+                    Albums = firstArtistAlbums
                 },
 
                 new Artist()
@@ -185,7 +320,8 @@ namespace D6PA5M_HFT_2021221.Test
                     Name = "SecondArtist",
                     Country = "UnknownCountry",
                     FoundationDate = DateTime.Now,
-                    GenreId = 0102
+                    GenreId = 0102,
+                    Albums = secondArtistAlbums
                 },
 
                 new Artist()
@@ -194,7 +330,8 @@ namespace D6PA5M_HFT_2021221.Test
                     Name = "ThirdArtist",
                     Country = "UnknownCountry",
                     FoundationDate = DateTime.Now,
-                    GenreId = 0103
+                    GenreId = 0103,
+                    Albums = thirdArtistAlbums
                 },
 
                 new Artist()
@@ -203,7 +340,8 @@ namespace D6PA5M_HFT_2021221.Test
                     Name = "FourthArtist",
                     Country = "UnknownCountry",
                     FoundationDate = DateTime.Now,
-                    GenreId = 0104
+                    GenreId = 0104,
+                    Albums = fourthArtistAlbums
                 }
             };
         }

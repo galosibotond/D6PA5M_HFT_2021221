@@ -12,8 +12,8 @@ namespace D6PA5M_HFT_2021221.Logic
         IEnumerable<Album> ReadAllAlbums();
         void UpdateAlbum(Album album);
         double GetAverageAlbumPrice();
-        IEnumerable GetAverageAlbumPriceByGenres();
-        IEnumerable GetAverageAlbumPriceByRecordCompanies();
-        IEnumerable GetAlbumsCountByCountry();
+        IEnumerable<KeyValuePair<string, double>> GetAverageAlbumPriceByGenres();
+        IEnumerable<KeyValuePair<string, double>> GetAverageAlbumPriceByRecordCompanies();
+        IEnumerable<KeyValuePair<string, int>> GetAlbumsCountByCountry();
     }
 }

@@ -43,31 +43,29 @@ namespace D6PA5M_HFT_2021221.Logic
             this.artistRepository.Update(artist);
         }
 
-        public IEnumerable GetOverallStockByArtists()
+        public IEnumerable<KeyValuePair<string, int>> GetOverallStockByArtists()
         {
             var overallStockByArtistsQuery = from artist in ReadAllArtists()
                                              group artist by artist.Name into g
                                              orderby g.Key
-                                             select new
-                                             {
-                                                 AlbumArtist = g.Key,
-                                                 OverallStock = g.Select(a => a.Albums.Sum(alb => alb.Stock)).FirstOrDefault()
-                                             };
+                                             select new KeyValuePair<string, int>(
+                                                                                  g.Key,
+                                                                                  g.Select(a => a.Albums.Sum(alb => alb.Stock)).FirstOrDefault());
 
             return overallStockByArtistsQuery.ToList();
         }
 
-        public IEnumerable GetMostUnselledAlbumByArtists()
+        public IEnumerable<KeyValuePair<string, string>> GetMostUnselledAlbumByArtists()
         {
             var mostUnselledAlbumByArtistsQuery = from artist in ReadAllArtists()
                                                   group artist by artist.Name into g
                                                   orderby g.Key
-                                                  select new
-                                                  {
-                                                      AlbumArtist = g.Key,
-                                                      MostUnselledAlbum = 
-                                                      g.Select(art => art.Albums.OrderByDescending(alb => alb.Stock).Select(alb => alb.Title)).FirstOrDefault().FirstOrDefault()
-                                                  };
+                                                  select new KeyValuePair<string, string>(
+                                                      g.Key,
+                                                      g.Select(art => art.Albums.OrderByDescending(alb => alb.Stock)
+                                                               .Select(alb => alb.Title))
+                                                      .FirstOrDefault()
+                                                      .FirstOrDefault());
 
             return mostUnselledAlbumByArtistsQuery.ToList();
         }

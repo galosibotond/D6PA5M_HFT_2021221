@@ -11,7 +11,7 @@ namespace D6PA5M_HFT_2021221.Logic
         IEnumerable<Artist> ReadAllArtists();
         Artist ReadArtist(int id);
         void UpdateArtist(Artist artist);
-        IEnumerable GetOverallStockByArtists();
-        IEnumerable GetMostUnselledAlbumByArtists();
+        IEnumerable<KeyValuePair<string, int>> GetOverallStockByArtists();
+        IEnumerable<KeyValuePair<string, string>> GetMostUnselledAlbumByArtists();
     }
 }

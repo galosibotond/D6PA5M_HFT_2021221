@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using D6PA5M_HFT_2021221.Logic;
@@ -124,6 +125,70 @@ namespace D6PA5M_HFT_2021221.Test
                 albumsInRepository.Where(artist => artist.Id == albumToUpdate.Id).FirstOrDefault().Stock, Is.EqualTo(albumToUpdate.Stock));
         }
 
+        [Test]
+        public void GivenAlbumLogic_WhenGetAlbumsCountByCountry_ThenCorrectValueReturnsToKey()
+        {
+            // Arrange
+            List<Album> albumsInRepository = GetAlbumsInRepository();
+            IAlbumRepository albumRepository = GetAlbumRepository(albumsInRepository);
+            IAlbumLogic albumLogic = new AlbumLogic(albumRepository);
+
+            // Action
+            IEnumerable<KeyValuePair<string, int>> albumsCountByCountry = albumLogic.GetAlbumsCountByCountry();
+
+            // Assert
+            Assert.That(albumsCountByCountry.FirstOrDefault().Key, Is.EqualTo("Hungary"));
+            Assert.That(albumsCountByCountry.FirstOrDefault().Value, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void GivenAlbumLogic_WhenGetAverageAlbumPrice_ThenAverageAlbumPriceIsCorrect()
+        {
+            // Arrange
+            List<Album> albumsInRepository = GetAlbumsInRepository();
+            IAlbumRepository albumRepository = GetAlbumRepository(albumsInRepository);
+            IAlbumLogic albumLogic = new AlbumLogic(albumRepository);
+
+            // Action
+            double averageAlbumPrice = albumLogic.GetAverageAlbumPrice();
+
+            // Assert
+            Assert.That(averageAlbumPrice, Is.EqualTo(3115));
+        }
+
+        [Test]
+        public void GivenAlbumLogic_WhenGetAverageAlbumPriceByGenres_ThenAverageAlbumPriceIsCorrectForKey()
+        {
+            // Arrange
+            List<Album> albumsInRepository = GetAlbumsInRepository();
+            IAlbumRepository albumRepository = GetAlbumRepository(albumsInRepository);
+            IAlbumLogic albumLogic = new AlbumLogic(albumRepository);
+
+            // Action
+            IEnumerable<KeyValuePair<string, double>> averageAlbumPriceByGenre = albumLogic.GetAverageAlbumPriceByGenres();
+
+            // Assert
+            Assert.That(averageAlbumPriceByGenre.FirstOrDefault().Key, Is.EqualTo("FirstGenre"));
+            Assert.That(Math.Round(averageAlbumPriceByGenre.FirstOrDefault().Value, 0), Is.EqualTo(3157));
+        }
+
+        [Test]
+        public void GivenAlbumLogic_WhenGetAverageAlbumPriceByRecordCompany_ThenAverageAlbumPriceIsCorrectForKey()
+        {
+            // Arrange
+            List<Album> albumsInRepository = GetAlbumsInRepository();
+            IAlbumRepository albumRepository = GetAlbumRepository(albumsInRepository);
+            IAlbumLogic albumLogic = new AlbumLogic(albumRepository);
+
+            // Action
+            IEnumerable<KeyValuePair<string, double>> averageAlbumPriceByRecordCompany = 
+                                                albumLogic.GetAverageAlbumPriceByRecordCompanies();
+
+            // Assert
+            Assert.That(averageAlbumPriceByRecordCompany.FirstOrDefault().Key, Is.EqualTo("FirstRecordCompany"));
+            Assert.That(Math.Round(averageAlbumPriceByRecordCompany.FirstOrDefault().Value, 0), Is.EqualTo(2240));
+        }
+
         private IAlbumRepository GetAlbumRepository(
                                                       List<Album> albumsInRepository,
                                                       int albumIdToDoModificationWith = 0,
@@ -171,6 +236,47 @@ namespace D6PA5M_HFT_2021221.Test
 
         public List<Album> GetAlbumsInRepository()
         {
+            Genre firstGenre = new Genre()
+            {
+                Name = "FirstGenre"
+            };
+
+            Genre secondGenre = new Genre()
+            {
+                Name = "SecondGenre"
+            };
+
+            Artist firstArtist = new Artist()
+            {
+                Name = "FirstArtist",
+                GenreId = 1001,
+                Country = "Hungary",
+                Genre = firstGenre
+            };
+
+            Artist secondArtist = new Artist()
+            {
+                Name = "SecondArtist",
+                GenreId = 1002,
+                Country = "USA",
+                Genre = secondGenre
+            };
+
+            RecordCompany firstRecordCompany = new RecordCompany()
+            {
+                Name = "FirstRecordCompany"
+            };
+
+            RecordCompany secondRecordCompany = new RecordCompany()
+            {
+                Name = "SecondRecordCompany"
+            };
+
+            RecordCompany thirdRecordCompany = new RecordCompany()
+            {
+                Name = "ThirdRecordCompany"
+            };
+
             return new List<Album>
             {
                 new Album()
@@ -179,8 +285,9 @@ namespace D6PA5M_HFT_2021221.Test
                     Title = "FirstAlbum",
                     Stock = 1000,
                     RecordCompanyId = 0101,
-                    ArtistId = 1111,
-                    Price = 1990
+                    Artist = firstArtist,
+                    Price = 1990,
+                    RecordCompany = firstRecordCompany
                 },
 
                 new Album()
@@ -189,8 +296,9 @@ namespace D6PA5M_HFT_2021221.Test
                     Title = "SecondAlbum",
                     Stock = 150,
                     RecordCompanyId = 0101,
-                    ArtistId = 2222,
-                    Price = 2490
+                    Artist = firstArtist,
+                    Price = 2490,
+                    RecordCompany = firstRecordCompany
                 },
 
                 new Album()
@@ -199,8 +307,9 @@ namespace D6PA5M_HFT_2021221.Test
                     Title = "ThirdAlbum",
                     Stock = 1000,
                     RecordCompanyId = 0102,
-                    ArtistId = 3333,
-                    Price = 4990
+                    Artist = firstArtist,
+                    Price = 4990,
+                    RecordCompany = secondRecordCompany
                 },
 
                 new Album()
@@ -209,8 +318,9 @@ namespace D6PA5M_HFT_2021221.Test
                     Title = "FourthAlbum",
                     Stock = 3957,
                     RecordCompanyId = 0103,
-                    ArtistId = 1111,
-                    Price = 2990
+                    Artist = secondArtist,
+                    Price = 2990,
+                    RecordCompany = thirdRecordCompany
                 }
             };
         }

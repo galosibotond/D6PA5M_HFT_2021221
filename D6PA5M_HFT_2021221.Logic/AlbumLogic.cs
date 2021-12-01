@@ -48,44 +48,32 @@ namespace D6PA5M_HFT_2021221.Logic
             return albumRepository.ReadAll().Average(album => album.Price);
         }
 
-        public IEnumerable GetAverageAlbumPriceByGenres()
+        public IEnumerable<KeyValuePair<string, double>> GetAverageAlbumPriceByGenres()
         {
             var averageAlbumPriceByGenresQuery = from album in albumRepository.ReadAll()
                                                  group album by album.Artist.Genre.Name into g
                                                  orderby g.Key
-                                                 select new
-                                                 {
-                                                     AlbumGenre = g.Key,
-                                                     AlbumAvgPrice = g.Average(a => a.Price)
-                                                 };
+                                                 select new KeyValuePair<string, double>(g.Key, g.Average(a => a.Price));
 
             return averageAlbumPriceByGenresQuery.ToList();
         }
 
-        public IEnumerable GetAverageAlbumPriceByRecordCompanies()
+        public IEnumerable<KeyValuePair<string, double>> GetAverageAlbumPriceByRecordCompanies()
         {
             var averageAlbumPriceByRecordCompaniesQuery = from album in albumRepository.ReadAll()
                                                           group album by album.RecordCompany.Name into g
                                                           orderby g.Key
-                                                          select new
-                                                          {
-                                                            AlbumRecordCompany = g.Key,
-                                                            AlbumAvgPrice = g.Average(a => a.Price)
-                                                          };
+                                                          select new KeyValuePair<string, double>(g.Key, g.Average(a => a.Price));
 
             return averageAlbumPriceByRecordCompaniesQuery.ToList();
         }
 
-        public IEnumerable GetAlbumsCountByCountry()
+        public IEnumerable<KeyValuePair<string, int>> GetAlbumsCountByCountry()
         {
             var albumsCountByCountryQuery = from album in albumRepository.ReadAll()
                                             group album by album.Artist.Country into g
                                             orderby g.Key
-                                            select new
-                                            {
-                                                 ArtistCountry = g.Key,
-                                                 AlbumsCount = g.Count()
-                                            };
+                                            select new KeyValuePair<string, int>(g.Key, g.Count());
 
             return albumsCountByCountryQuery.ToList();
         }
