@@ -44,6 +44,24 @@ namespace D6PA5M_HFT_2021221.Test
         }
 
         [Test]
+        public void GivenArtistLogic_WhenCreateArtistWithoutName_ThenArgumentExceptionIsExpected()
+        {
+            // Arrange
+            Artist artistToCreate = new Artist()
+            {
+                Id = 9999,
+                Country = "UnknownCountry",
+                FoundationDate = DateTime.Now,
+                GenreId = 8888
+            };
+
+            IArtistLogic artistLogic = new ArtistLogic(Mock.Of<IArtistRepository>());
+
+            // Action - Assert
+            Assert.Throws<ArgumentException>(() => artistLogic.CreateArtist(artistToCreate));
+        }
+
+        [Test]
         public void GivenArtistLogic_WhenReadArtist_ThenArtistIsReadCorrectly()
         {
             // Arrange

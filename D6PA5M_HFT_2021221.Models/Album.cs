@@ -21,10 +21,8 @@ namespace D6PA5M_HFT_2021221.Models
         [ForeignKey(nameof(RecordCompany))]
         public int RecordCompanyId { get; set; }
 
-        [Required]
         public int Stock { get; set; }
 
-        [Required]
         public int Price { get; set; }
 
         [NotMapped]

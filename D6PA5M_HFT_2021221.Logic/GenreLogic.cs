@@ -16,6 +16,11 @@ namespace D6PA5M_HFT_2021221.Logic
         }
         public void CreateGenre(Genre genre)
         {
+            if (string.IsNullOrEmpty(genre.Name))
+            {
+                throw new ArgumentException(nameof(genre));
+            }
+
             this.genreRepository.Create(genre);
         }
 

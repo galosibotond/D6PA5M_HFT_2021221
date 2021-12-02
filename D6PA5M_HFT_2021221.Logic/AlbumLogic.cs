@@ -18,6 +18,11 @@ namespace D6PA5M_HFT_2021221.Logic
         }
         public void CreateAlbum(Album album)
         {
+            if (string.IsNullOrEmpty(album.Title))
+            {
+                throw new ArgumentException(nameof(album));
+            }
+
             this.albumRepository.Create(album);
         }
 

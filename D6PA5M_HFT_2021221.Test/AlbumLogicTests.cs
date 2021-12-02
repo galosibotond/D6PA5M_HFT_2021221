@@ -47,6 +47,25 @@ namespace D6PA5M_HFT_2021221.Test
         }
 
         [Test]
+        public void GivenAlbumLogic_WhenCreateAlbumWithNoTitle_ThenArgumentExceptionIsExpected()
+        {
+            // Arrange
+            Album albumToCreate = new Album()
+            {
+                Id = 9999,
+                Stock = 1000,
+                RecordCompanyId = 0101,
+                ArtistId = 1111,
+                Price = 1990
+            };
+
+            IAlbumLogic albumLogic = new AlbumLogic(Mock.Of<IAlbumRepository>());
+
+            // Action - Assert
+            Assert.Throws<ArgumentException>(() => albumLogic.CreateAlbum(albumToCreate));
+        }
+
+        [Test]
         public void GivenAlbumLogic_WhenReadAlbum_ThenAlbumIsReadCorrectly()
         {
             // Arrange

@@ -19,6 +19,11 @@ namespace D6PA5M_HFT_2021221.Logic
         }
         public void CreateRecordCompany(RecordCompany recordCompany)
         {
+            if (string.IsNullOrEmpty(recordCompany.Name))
+            {
+                throw new ArgumentException(nameof(recordCompany));
+            }
+
             this.recordCompanyRepository.Create(recordCompany);
         }
 

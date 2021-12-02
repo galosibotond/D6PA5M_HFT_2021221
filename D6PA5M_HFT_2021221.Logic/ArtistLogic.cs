@@ -18,6 +18,11 @@ namespace D6PA5M_HFT_2021221.Logic
         }
         public void CreateArtist(Artist artist)
         {
+            if (string.IsNullOrEmpty(artist.Name))
+            {
+                throw new ArgumentException(nameof(artist));
+            }
+
             this.artistRepository.Create(artist);
         }
 
