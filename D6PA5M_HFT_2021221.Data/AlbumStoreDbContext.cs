@@ -37,7 +37,7 @@ namespace D6PA5M_HFT_2021221.Data
                 .HasOne(artist => artist.Genre)
                 .WithMany(genre => genre.Artists)
                 .HasForeignKey(x => x.GenreId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Album>(entity =>
@@ -46,25 +46,25 @@ namespace D6PA5M_HFT_2021221.Data
                 .HasOne(album => album.Artist)
                 .WithMany(artist => artist.Albums)
                 .HasForeignKey(x => x.ArtistId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Genre>(entity =>
             {
                 entity
-                .HasMany(genre => genre.Artists)
+                .HasMany<Artist>(genre => genre.Artists)
                 .WithOne(artist => artist.Genre)
                 .HasForeignKey(x => x.GenreId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<RecordCompany>(entity =>
             {
                 entity
-                .HasMany(recordCompany => recordCompany.Albums)
+                .HasMany<Album>(recordCompany => recordCompany.Albums)
                 .WithOne(album => album.RecordCompany)
                 .HasForeignKey(x => x.RecordCompanyId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .OnDelete(DeleteBehavior.Cascade);
             });
 
             Genre rockGenre = new Genre() { Id = 1001, Name = "Rock/metal" };

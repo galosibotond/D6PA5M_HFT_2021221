@@ -16,35 +16,35 @@ namespace D6PA5M_HFT_2021221.Endpoint.Controllers
             this.recordCompanyLogic = recordCompanyLogic;
         }
 
-        // GET: /recordCompany
+        // GET: /recordcompany
         [HttpGet]
         public IEnumerable<RecordCompany> Get()
         {
             return recordCompanyLogic.ReadAllRecordCompanies();
         }
 
-        // GET /recordCompany/2
+        // GET /recordcompany/2
         [HttpGet("{id}")]
         public RecordCompany Get(int id)
         {
             return recordCompanyLogic.ReadRecordCompany(id);
         }
 
-        // POST /recordCompany
+        // POST /recordcompany
         [HttpPost]
         public void Post([FromBody] RecordCompany value)
         {
             recordCompanyLogic.CreateRecordCompany(value);
         }
 
-        // PUT /recordCompany
+        // PUT /recordcompany
         [HttpPut]
         public void Put([FromBody] RecordCompany value)
         {
             recordCompanyLogic.UpdateRecordCompany(value);
         }
 
-        // DELETE /recordCompany/1
+        // DELETE /recordcompany/1
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
+using ConsoleTools;
 
 namespace D6PA5M_HFT_2021221.Client
 {
@@ -8,7 +10,13 @@ namespace D6PA5M_HFT_2021221.Client
         {
             Thread.Sleep(8000);
 
-            RestService rest = new RestService("http://localhost:36957");
+            RestService restService = new RestService("http://localhost:36957");
+
+            ConsoleMenu consoleMenu = new ConsoleMenu();
+
+            ClientHelper clientHelper = new ClientHelper(consoleMenu, restService);
+
+            clientHelper.ShowConsoleMenu();
         }
     }
 }
