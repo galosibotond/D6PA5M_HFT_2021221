@@ -15,8 +15,9 @@ namespace D6PA5M_HFT_2021221.Client
             ConsoleMenu consoleMenu = new ConsoleMenu();
 
             CreateAPIHelper createAPIHelper = new CreateAPIHelper(consoleMenu, restService);
+            ReadAPIHelper readAPIHelper = new ReadAPIHelper(consoleMenu, restService);
 
-            ClientHelper clientHelper = new ClientHelper(createAPIHelper, consoleMenu, restService);
+            ClientHelper clientHelper = new ClientHelper(createAPIHelper, readAPIHelper, consoleMenu, restService);
 
             clientHelper.ShowConsoleMenu();
         }

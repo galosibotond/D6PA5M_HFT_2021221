@@ -14,10 +14,15 @@ namespace D6PA5M_HFT_2021221.Client
     {
         private RestService restService;
         private CreateAPIHelper createAPIHelper;
+        private ReadAPIHelper readAPIHelper;
 
-        public ClientHelper(CreateAPIHelper createAPIHelper, ConsoleMenu consoleMenu, RestService restService) : base(consoleMenu)
+        public ClientHelper(CreateAPIHelper createAPIHelper, 
+                            ReadAPIHelper readAPIHelper, 
+                            ConsoleMenu consoleMenu, 
+                            RestService restService) : base(consoleMenu)
         {
             this.createAPIHelper = createAPIHelper;
+            this.readAPIHelper = readAPIHelper;
             this.restService = restService;
 
             CreateConsoleMenu();
@@ -30,15 +35,15 @@ namespace D6PA5M_HFT_2021221.Client
             ConsoleMenu.Add(" >> CREATE GENRE", () => createAPIHelper.CreateGenre());
             ConsoleMenu.Add(" >> CREATE RECORD COMPANY", () => createAPIHelper.CreateRecordCompany());
 
-            ConsoleMenu.Add(" >> READ ARTIST BY ID", () => ReadArtist());
-            ConsoleMenu.Add(" >> READ ALBUM BY ID", () => ReadAlbum());
-            ConsoleMenu.Add(" >> READ GENRE BY ID", () => ReadGenre());
-            ConsoleMenu.Add(" >> READ RECORD COMPANY BY ID", () => ReadRecordCompany());
+            ConsoleMenu.Add(" >> READ ARTIST BY ID", () => readAPIHelper.ReadArtist());
+            ConsoleMenu.Add(" >> READ ALBUM BY ID", () => readAPIHelper.ReadAlbum());
+            ConsoleMenu.Add(" >> READ GENRE BY ID", () => readAPIHelper.ReadGenre());
+            ConsoleMenu.Add(" >> READ RECORD COMPANY BY ID", () => readAPIHelper.ReadRecordCompany());
 
-            ConsoleMenu.Add(" >> READ ALL ARTISTS", () => ReadAllArtists());
-            ConsoleMenu.Add(" >> READ ALL ALBUMS", () => ReadAllAlbums());
-            ConsoleMenu.Add(" >> READ ALL GENRES", () => ReadAllGenres());
-            ConsoleMenu.Add(" >> READ ALL RECORD COMPANIES", () => ReadAllRecordCompanies());
+            ConsoleMenu.Add(" >> READ ALL ARTISTS", () => readAPIHelper.ReadAllArtists());
+            ConsoleMenu.Add(" >> READ ALL ALBUMS", () => readAPIHelper.ReadAllAlbums());
+            ConsoleMenu.Add(" >> READ ALL GENRES", () => readAPIHelper.ReadAllGenres());
+            ConsoleMenu.Add(" >> READ ALL RECORD COMPANIES", () => readAPIHelper.ReadAllRecordCompanies());
 
             ConsoleMenu.Add(" >> UPDATE ARTIST", () => UpdateArtist());
             ConsoleMenu.Add(" >> UPDATE ALBUM", () => UpdateAlbum());
@@ -58,100 +63,6 @@ namespace D6PA5M_HFT_2021221.Client
             ConsoleMenu.Add(" >> GET MOST UNSELLED ALBUM BY ARTISTS", () => GetMostUnselledAlbumByArtists());
                             
             ConsoleMenu.Add(" >> EXIT", ConsoleMenu.Close);
-        }
-
-        private void ReadRecordCompany()
-        {
-            string requestName = "recordcompany";
-
-            ReadEntity<RecordCompany>(requestName);
-        }
-
-        private void ReadAlbum()
-        {
-            string requestName = "album";
-
-            ReadEntity<Album>(requestName);
-        }
-
-        private void ReadGenre()
-        {
-            string requestName = "genre";
-
-            ReadEntity<Genre>(requestName);
-        }
-
-        private void ReadArtist()
-        {
-            string requestName = "artist";
-
-            ReadEntity<Artist>(requestName);
-        }
-
-        private void ReadEntity<T>(string requestName)
-        {
-            Console.Write("\nPlease type the ID of the object you want to read and press Enter: ");
-
-            string inputFromConsole = Console.ReadLine();
-
-            int id;
-
-            if(!int.TryParse(inputFromConsole, out id))
-            {
-                Console.WriteLine("Please type a valid ID!");
-
-                ReturnToMainMenu();
-
-                return;
-            }
-
-            T requestedObject =
-                restService.GetSingle<T>($"{requestName}\\{id}");
-
-            if (requestedObject == null)
-            {
-                Console.WriteLine("There is no object with this ID, please try again!");
-
-                ReturnToMainMenu();
-            }
-
-            SerializeIntoJSON(requestedObject, requestedObject.GetType(), requestName);
-        }
-
-        private void ReadAllRecordCompanies()
-        {
-            string requestName = "recordcompany";
-
-            ReadAllEntites<RecordCompany>(requestName);
-        }
-
-        private void ReadAllGenres()
-        {
-            string requestName = "genre";
-
-            ReadAllEntites<Genre>(requestName);
-        }
-
-        private void ReadAllAlbums()
-        {
-            string requestName = "album";
-
-            ReadAllEntites<Album>(requestName);
-        }
-
-        private void ReadAllArtists()
-        {
-            string requestName = "artist";
-
-            ReadAllEntites<Artist>(requestName);
-        }
-
-        private void ReadAllEntites<T>(string requestName)
-        {
-            List<T> entities =
-                restService.Get<T>($"{requestName}");
-
-            SerializeIntoJSON(entities, entities.GetType(), requestName);
         }
 
         private void UpdateRecordCompany()
@@ -520,27 +431,6 @@ namespace D6PA5M_HFT_2021221.Client
             double avgAlbumPrice = restService.GetSingle<double>($"stat/{requestName}");
 
             SerializeIntoJSON(avgAlbumPrice, avgAlbumPrice.GetType(), requestName);
-        }
-
-        private void SerializeIntoJSON(object value, Type inputType, string jsonName)
-        {
-            string serializedJson = JsonSerializer.Serialize(value, inputType);
-
-            string jsonFileName = jsonName + "_" + Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".json";
-
-            if (File.Exists(jsonFileName))
-            {
-                File.Delete(jsonFileName);
-            }
-
-            using (StreamWriter streamWriter = new StreamWriter(jsonFileName))
-            {
-                streamWriter.Write(serializedJson);
-            }
-
-            Console.WriteLine($"{jsonFileName} has been created for request.");
-
-            ReturnToMainMenu();
         }
     }
 }
