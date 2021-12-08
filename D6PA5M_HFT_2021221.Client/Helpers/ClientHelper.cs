@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading;
-using ConsoleTools;
-using D6PA5M_HFT_2021221.Models;
+﻿using ConsoleTools;
 
 namespace D6PA5M_HFT_2021221.Client
 {
