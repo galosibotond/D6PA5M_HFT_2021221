@@ -17,11 +17,13 @@ namespace D6PA5M_HFT_2021221.Client
         private ReadAPIHelper readAPIHelper;
         private UpdateAPIHelper updateAPIHelper;
         private DeleteAPIHelper deleteAPIHelper;
+        private StatAPIHelper statAPIHelper;
 
         public ClientHelper(CreateAPIHelper createAPIHelper, 
                             ReadAPIHelper readAPIHelper, 
                             UpdateAPIHelper updateAPIHelper,
                             DeleteAPIHelper deleteAPIHelper,
+                            StatAPIHelper statAPIHelper,
                             ConsoleMenu consoleMenu, 
                             RestService restService) : base(consoleMenu)
         {
@@ -29,6 +31,7 @@ namespace D6PA5M_HFT_2021221.Client
             this.readAPIHelper = readAPIHelper;
             this.updateAPIHelper = updateAPIHelper;
             this.deleteAPIHelper = deleteAPIHelper;
+            this.statAPIHelper = statAPIHelper;
             this.restService = restService;
 
             CreateConsoleMenu();
@@ -61,73 +64,20 @@ namespace D6PA5M_HFT_2021221.Client
             ConsoleMenu.Add(" >> DELETE GENRE", () => deleteAPIHelper.DeleteGenre());
             ConsoleMenu.Add(" >> DELETE RECORD COMPANY", () => deleteAPIHelper.DeleteRecordCompany());
 
-            ConsoleMenu.Add(" >> GET AVERAGE ALBUM PRICE", () => GetAverageAlbumPrice());
-            ConsoleMenu.Add(" >> GET AVERAGE ALBUM PRICE BY GENRES", () => GetAverageAlbumPriceByGenres());
-            ConsoleMenu.Add(" >> GET AVERAGE ALBUM PRICE BY RECORD COMPANIES", () => GetAverageAlbumPriceByRecordCompanies());
-            ConsoleMenu.Add(" >> GET ALBUM COUNT BY COUNTRY", () => GetAlbumCountByCountry());
-            ConsoleMenu.Add(" >> GET OVERALL STOCK BY ARTISTS", () => GetOverallStockByArtists());
-            ConsoleMenu.Add(" >> GET MOST UNSELLED ALBUM BY ARTISTS", () => GetMostUnselledAlbumByArtists());
+            ConsoleMenu.Add(" >> GET AVERAGE ALBUM PRICE", 
+                            () => statAPIHelper.GetAverageAlbumPrice());
+            ConsoleMenu.Add(" >> GET AVERAGE ALBUM PRICE BY GENRES", 
+                            () => statAPIHelper.GetAverageAlbumPriceByGenres());
+            ConsoleMenu.Add(" >> GET AVERAGE ALBUM PRICE BY RECORD COMPANIES", 
+                            () => statAPIHelper.GetAverageAlbumPriceByRecordCompanies());
+            ConsoleMenu.Add(" >> GET ALBUM COUNT BY COUNTRY", 
+                            () => statAPIHelper.GetAlbumCountByCountry());
+            ConsoleMenu.Add(" >> GET OVERALL STOCK BY ARTISTS", 
+                            () => statAPIHelper.GetOverallStockByArtists());
+            ConsoleMenu.Add(" >> GET MOST UNSELLED ALBUM BY ARTISTS", 
+                            () => statAPIHelper.GetMostUnselledAlbumByArtists());
                             
             ConsoleMenu.Add(" >> EXIT", ConsoleMenu.Close);
-        }
-
-        private void GetAverageAlbumPriceByRecordCompanies()
-        {
-            string requestName = "avgalbumpricebyrecordcompany";
-
-            List<KeyValuePair<string, double>> avgAlbumPriceByRecordCompanies = 
-                restService.Get<KeyValuePair<string, double>>($"stat/{requestName}");
-
-            SerializeIntoJSON(avgAlbumPriceByRecordCompanies, avgAlbumPriceByRecordCompanies.GetType(), requestName);
-        }
-
-        private void GetMostUnselledAlbumByArtists()
-        {
-            string requestName = "mostunselledalbum";
-
-            List<KeyValuePair<string, string>> mostUnselledAlbums =
-                        restService.Get<KeyValuePair<string, string>>($"stat/{requestName}");
-
-            SerializeIntoJSON(mostUnselledAlbums, mostUnselledAlbums.GetType(), requestName);
-        }
-
-        private void GetOverallStockByArtists()
-        {
-            string requestName = "stockbyartist";
-
-            List<KeyValuePair<string, int>> stockByArtists =
-                        restService.Get<KeyValuePair<string, int>>($"stat/{requestName}");
-
-            SerializeIntoJSON(stockByArtists, stockByArtists.GetType(), requestName);
-        }
-
-        private void GetAlbumCountByCountry()
-        {
-            string requestName = "albumscountbycountry";
-
-            List <KeyValuePair<string, int>> albumsCountByCountry =
-                        restService.Get<KeyValuePair<string, int>>($"stat/{requestName}");
-
-            SerializeIntoJSON(albumsCountByCountry, albumsCountByCountry.GetType(), requestName);
-        }
-
-        private void GetAverageAlbumPriceByGenres()
-        {
-            string requestName = "avgalbumpricebygenre";
-
-            List<KeyValuePair<string, double>> avgAlbumPriceByGenre =
-                        restService.Get<KeyValuePair<string, double>>($"stat/{requestName}");
-
-            SerializeIntoJSON(avgAlbumPriceByGenre, avgAlbumPriceByGenre.GetType(), requestName);
-        }
-
-        private void GetAverageAlbumPrice()
-        {
-            string requestName = "avgalbumprice";
-
-            double avgAlbumPrice = restService.GetSingle<double>($"stat/{requestName}");
-
-            SerializeIntoJSON(avgAlbumPrice, avgAlbumPrice.GetType(), requestName);
         }
     }
 }

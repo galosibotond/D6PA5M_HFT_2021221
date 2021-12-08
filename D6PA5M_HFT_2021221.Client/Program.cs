@@ -18,9 +18,10 @@ namespace D6PA5M_HFT_2021221.Client
             ReadAPIHelper readAPIHelper = new ReadAPIHelper(consoleMenu, restService);
             UpdateAPIHelper updateAPIHelper = new UpdateAPIHelper(consoleMenu, restService);
             DeleteAPIHelper deleteAPIHelper = new DeleteAPIHelper(consoleMenu, restService);
+            StatAPIHelper statAPIHelper = new StatAPIHelper(consoleMenu, restService);
 
             ClientHelper clientHelper = new ClientHelper(
-                createAPIHelper, readAPIHelper, updateAPIHelper, deleteAPIHelper,consoleMenu, restService);
+                createAPIHelper, readAPIHelper, updateAPIHelper, deleteAPIHelper, statAPIHelper, consoleMenu, restService);
 
             clientHelper.ShowConsoleMenu();
         }
