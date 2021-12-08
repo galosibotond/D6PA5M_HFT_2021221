@@ -12,7 +12,7 @@ namespace D6PA5M_HFT_2021221.Client
 
         public ConsoleActionHelperBase(ConsoleMenu consoleMenu)
         {
-            ConsoleMenu = consoleMenu;
+            ConsoleMenu = consoleMenu ?? throw new ArgumentNullException(nameof(consoleMenu));
         }
 
         public void ShowConsoleMenu()
