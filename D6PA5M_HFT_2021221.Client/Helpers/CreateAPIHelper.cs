@@ -127,8 +127,6 @@ namespace D6PA5M_HFT_2021221.Client
             Console.Write("\n\nThe album has been created!");
 
             ReturnToMainMenu();
-
-            ConsoleMenu.Show(); // to-do
         }
 
         public void CreateGenre()
@@ -265,9 +263,7 @@ namespace D6PA5M_HFT_2021221.Client
 
             Console.WriteLine("The record company has been created!");
 
-            Thread.Sleep(3000);
-
-            ConsoleMenu.Show();
+            ReturnToMainMenu();
         }
     }
 }
