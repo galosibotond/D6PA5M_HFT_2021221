@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using D6PA5M_HFT_2021221.Models;
 using D6PA5M_HFT_2021221.Repository.Interfaces;
 using Moq;
