@@ -10,7 +10,7 @@ namespace D6PA5M_HFT_2021221.Client
 
         public UpdateAPIHelper(ConsoleMenu consoleMenu, RestService restService) : base(consoleMenu)
         {
-            this.restService = restService;
+            this.restService = restService ?? throw new ArgumentNullException(nameof(restService));
         }
 
         public void UpdateRecordCompany()
