@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using ConsoleTools;
 
 namespace D6PA5M_HFT_2021221.Client
