@@ -48,11 +48,7 @@ namespace D6PA5M_HFT_2021221.Client
 
             if (string.IsNullOrEmpty(inputName))
             {
-                Console.WriteLine("\n\nInvalid or empty name for record company, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
+                inputName = recordCompany.Name;
             }
 
             RecordCompany recordCompanyToUpdate = new RecordCompany()
@@ -103,11 +99,7 @@ namespace D6PA5M_HFT_2021221.Client
 
             if (string.IsNullOrEmpty(inputName))
             {
-                Console.WriteLine("\n\nInvalid or empty name for genre, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
+                inputName = genre.Name;
             }
 
             Genre genreToUpdate = new Genre()
@@ -128,11 +120,11 @@ namespace D6PA5M_HFT_2021221.Client
             string requestName = "album";
 
             Console.Write("\nPlease enter the ID of the album you want to update: ");
-            string inputId = Console.ReadLine();
+            string inputAlbumId = Console.ReadLine();
 
-            int id;
+            int albumId;
 
-            if (!int.TryParse(inputId, out id))
+            if (!int.TryParse(inputAlbumId, out albumId))
             {
                 Console.WriteLine("\n\nInvalid ID has been entered, please try again!");
 
@@ -142,7 +134,7 @@ namespace D6PA5M_HFT_2021221.Client
             }
 
             Album album =
-                restService.GetSingle<Album>($"{requestName}\\{id}");
+                restService.GetSingle<Album>($"{requestName}\\{albumId}");
 
             if (album == null)
             {
@@ -158,11 +150,7 @@ namespace D6PA5M_HFT_2021221.Client
 
             if (string.IsNullOrEmpty(inputName))
             {
-                Console.WriteLine("\n\nInvalid or empty name for album title, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
+                inputName = album.Title;
             }
 
             Console.Write("\n\nPlease enter the new stock: ");
@@ -170,7 +158,7 @@ namespace D6PA5M_HFT_2021221.Client
 
             int stock;
 
-            if (!int.TryParse(inputStock, out stock))
+            if (!int.TryParse(inputStock, out stock) || stock < 0)
             {
                 Console.WriteLine("\n\nInvalid stock has been entered, please try again!");
 
@@ -184,7 +172,7 @@ namespace D6PA5M_HFT_2021221.Client
 
             int price;
 
-            if (!int.TryParse(inputPrice, out price))
+            if (!int.TryParse(inputPrice, out price) || price < 0)
             {
                 Console.WriteLine("\n\nInvalid price has been entered, please try again!");
 
@@ -196,14 +184,14 @@ namespace D6PA5M_HFT_2021221.Client
             Album albumToUpdate = new Album()
             {
                 Title = inputName,
-                Id = id,
+                Id = albumId,
                 Stock = stock,
                 Price = price
             };
 
             restService.Put<Album>(albumToUpdate, requestName);
 
-            Console.Write($"The album with ID {id} has been updated!");
+            Console.Write($"The album with ID {albumId} has been updated!");
 
             ReturnToMainMenu();
         }
@@ -243,11 +231,7 @@ namespace D6PA5M_HFT_2021221.Client
 
             if (string.IsNullOrEmpty(inputName))
             {
-                Console.WriteLine("\n\nInvalid or empty name for artist, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
+                inputName = artist.Name;
             }
 
             Artist artistToUpdate = new Artist()
