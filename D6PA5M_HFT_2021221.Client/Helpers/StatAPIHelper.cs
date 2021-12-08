@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ConsoleTools;
 
 namespace D6PA5M_HFT_2021221.Client
@@ -9,7 +10,7 @@ namespace D6PA5M_HFT_2021221.Client
 
         public StatAPIHelper(ConsoleMenu consoleMenu, RestService restService) : base(consoleMenu)
         {
-            this.restService = restService;
+            this.restService = restService ?? throw new ArgumentNullException(nameof(restService));
         }
 
         public void GetAverageAlbumPriceByRecordCompanies()
