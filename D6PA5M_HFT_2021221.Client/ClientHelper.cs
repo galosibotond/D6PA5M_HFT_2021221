@@ -16,16 +16,19 @@ namespace D6PA5M_HFT_2021221.Client
         private CreateAPIHelper createAPIHelper;
         private ReadAPIHelper readAPIHelper;
         private UpdateAPIHelper updateAPIHelper;
+        private DeleteAPIHelper deleteAPIHelper;
 
         public ClientHelper(CreateAPIHelper createAPIHelper, 
                             ReadAPIHelper readAPIHelper, 
                             UpdateAPIHelper updateAPIHelper,
+                            DeleteAPIHelper deleteAPIHelper,
                             ConsoleMenu consoleMenu, 
                             RestService restService) : base(consoleMenu)
         {
             this.createAPIHelper = createAPIHelper;
             this.readAPIHelper = readAPIHelper;
             this.updateAPIHelper = updateAPIHelper;
+            this.deleteAPIHelper = deleteAPIHelper;
             this.restService = restService;
 
             CreateConsoleMenu();
@@ -53,10 +56,10 @@ namespace D6PA5M_HFT_2021221.Client
             ConsoleMenu.Add(" >> UPDATE GENRE", () => updateAPIHelper.UpdateGenre());
             ConsoleMenu.Add(" >> UPDATE RECORD COMPANY", () => updateAPIHelper.UpdateRecordCompany());
 
-            ConsoleMenu.Add(" >> DELETE ARTIST", () => DeleteArtist());
-            ConsoleMenu.Add(" >> DELETE ALBUM", () => DeleteAlbum());
-            ConsoleMenu.Add(" >> DELETE GENRE", () => DeleteGenre());
-            ConsoleMenu.Add(" >> DELETE RECORD COMPANY", () => DeleteRecordCompany());
+            ConsoleMenu.Add(" >> DELETE ARTIST", () => deleteAPIHelper.DeleteArtist());
+            ConsoleMenu.Add(" >> DELETE ALBUM", () => deleteAPIHelper.DeleteAlbum());
+            ConsoleMenu.Add(" >> DELETE GENRE", () => deleteAPIHelper.DeleteGenre());
+            ConsoleMenu.Add(" >> DELETE RECORD COMPANY", () => deleteAPIHelper.DeleteRecordCompany());
 
             ConsoleMenu.Add(" >> GET AVERAGE ALBUM PRICE", () => GetAverageAlbumPrice());
             ConsoleMenu.Add(" >> GET AVERAGE ALBUM PRICE BY GENRES", () => GetAverageAlbumPriceByGenres());
@@ -66,65 +69,6 @@ namespace D6PA5M_HFT_2021221.Client
             ConsoleMenu.Add(" >> GET MOST UNSELLED ALBUM BY ARTISTS", () => GetMostUnselledAlbumByArtists());
                             
             ConsoleMenu.Add(" >> EXIT", ConsoleMenu.Close);
-        }
-
-        private void DeleteRecordCompany()
-        {
-            string requestName = "recordcompany";
-
-            DeleteEntity(requestName);
-        }
-
-        private void DeleteGenre()
-        {
-            string requestName = "genre";
-
-            DeleteEntity(requestName);
-        }
-
-        private void DeleteAlbum()
-        {
-            string requestName = "album";
-
-            DeleteEntity(requestName);
-        }
-
-        private void DeleteArtist()
-        {
-            string requestName = "artist";
-
-            DeleteEntity(requestName);
-        }
-
-        private void DeleteEntity(string requestName)
-        {
-            Console.Write("\nPlease type the ID of the object you want to delete and press Enter: ");
-
-            string inputFromConsole = Console.ReadLine();
-
-            int id;
-
-            if (!int.TryParse(inputFromConsole, out id))
-            {
-                Console.WriteLine("Please type a valid ID!");
-
-                ReturnToMainMenu();
-
-                return;
-            }
-
-            try
-            {
-                restService.Delete(id, requestName);
-            }
-            catch (HttpRequestException)
-            {
-                Console.WriteLine("There is no object with this ID, please try again!");
-            }
-            finally
-            {
-                ReturnToMainMenu();
-            }
         }
 
         private void GetAverageAlbumPriceByRecordCompanies()
