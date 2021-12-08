@@ -10,14 +10,14 @@ using D6PA5M_HFT_2021221.Models;
 
 namespace D6PA5M_HFT_2021221.Client
 {
-    public class ClientHelper
+    public sealed class ClientHelper : ConsoleActionHelperBase
     {
-        private ConsoleMenu consoleMenu;
         private RestService restService;
+        private CreateAPIHelper createAPIHelper;
 
-        public ClientHelper(ConsoleMenu consoleMenu, RestService restService)
+        public ClientHelper(CreateAPIHelper createAPIHelper, ConsoleMenu consoleMenu, RestService restService) : base(consoleMenu)
         {
-            this.consoleMenu = consoleMenu;
+            this.createAPIHelper = createAPIHelper;
             this.restService = restService;
 
             CreateConsoleMenu();
@@ -25,307 +25,39 @@ namespace D6PA5M_HFT_2021221.Client
 
         private void CreateConsoleMenu()
         {
-            consoleMenu.Add(" >> CREATE ARTIST", () => CreateArtist());
-            consoleMenu.Add(" >> CREATE ALBUM", () => CreateAlbum());
-            consoleMenu.Add(" >> CREATE GENRE", () => CreateGenre());
-            consoleMenu.Add(" >> CREATE RECORD COMPANY", () => CreateRecordCompany());
+            ConsoleMenu.Add(" >> CREATE ARTIST", () => createAPIHelper.CreateArtist());
+            ConsoleMenu.Add(" >> CREATE ALBUM", () => createAPIHelper.CreateAlbum());
+            ConsoleMenu.Add(" >> CREATE GENRE", () => createAPIHelper.CreateGenre());
+            ConsoleMenu.Add(" >> CREATE RECORD COMPANY", () => createAPIHelper.CreateRecordCompany());
 
-            consoleMenu.Add(" >> READ ARTIST BY ID", () => ReadArtist());
-            consoleMenu.Add(" >> READ ALBUM BY ID", () => ReadAlbum());
-            consoleMenu.Add(" >> READ GENRE BY ID", () => ReadGenre());
-            consoleMenu.Add(" >> READ RECORD COMPANY BY ID", () => ReadRecordCompany());
+            ConsoleMenu.Add(" >> READ ARTIST BY ID", () => ReadArtist());
+            ConsoleMenu.Add(" >> READ ALBUM BY ID", () => ReadAlbum());
+            ConsoleMenu.Add(" >> READ GENRE BY ID", () => ReadGenre());
+            ConsoleMenu.Add(" >> READ RECORD COMPANY BY ID", () => ReadRecordCompany());
 
-            consoleMenu.Add(" >> READ ALL ARTISTS", () => ReadAllArtists());
-            consoleMenu.Add(" >> READ ALL ALBUMS", () => ReadAllAlbums());
-            consoleMenu.Add(" >> READ ALL GENRES", () => ReadAllGenres());
-            consoleMenu.Add(" >> READ ALL RECORD COMPANIES", () => ReadAllRecordCompanies());
+            ConsoleMenu.Add(" >> READ ALL ARTISTS", () => ReadAllArtists());
+            ConsoleMenu.Add(" >> READ ALL ALBUMS", () => ReadAllAlbums());
+            ConsoleMenu.Add(" >> READ ALL GENRES", () => ReadAllGenres());
+            ConsoleMenu.Add(" >> READ ALL RECORD COMPANIES", () => ReadAllRecordCompanies());
 
-            consoleMenu.Add(" >> UPDATE ARTIST", () => UpdateArtist());
-            consoleMenu.Add(" >> UPDATE ALBUM", () => UpdateAlbum());
-            consoleMenu.Add(" >> UPDATE GENRE", () => UpdateGenre());
-            consoleMenu.Add(" >> UPDATE RECORD COMPANY", () => UpdateRecordCompany());
+            ConsoleMenu.Add(" >> UPDATE ARTIST", () => UpdateArtist());
+            ConsoleMenu.Add(" >> UPDATE ALBUM", () => UpdateAlbum());
+            ConsoleMenu.Add(" >> UPDATE GENRE", () => UpdateGenre());
+            ConsoleMenu.Add(" >> UPDATE RECORD COMPANY", () => UpdateRecordCompany());
 
-            consoleMenu.Add(" >> DELETE ARTIST", () => DeleteArtist());
-            consoleMenu.Add(" >> DELETE ALBUM", () => DeleteAlbum());
-            consoleMenu.Add(" >> DELETE GENRE", () => DeleteGenre());
-            consoleMenu.Add(" >> DELETE RECORD COMPANY", () => DeleteRecordCompany());
+            ConsoleMenu.Add(" >> DELETE ARTIST", () => DeleteArtist());
+            ConsoleMenu.Add(" >> DELETE ALBUM", () => DeleteAlbum());
+            ConsoleMenu.Add(" >> DELETE GENRE", () => DeleteGenre());
+            ConsoleMenu.Add(" >> DELETE RECORD COMPANY", () => DeleteRecordCompany());
 
-            consoleMenu.Add(" >> GET AVERAGE ALBUM PRICE", () => GetAverageAlbumPrice());
-            consoleMenu.Add(" >> GET AVERAGE ALBUM PRICE BY GENRES", () => GetAverageAlbumPriceByGenres());
-            consoleMenu.Add(" >> GET AVERAGE ALBUM PRICE BY RECORD COMPANIES", () => GetAverageAlbumPriceByRecordCompanies());
-            consoleMenu.Add(" >> GET ALBUM COUNT BY COUNTRY", () => GetAlbumCountByCountry());
-            consoleMenu.Add(" >> GET OVERALL STOCK BY ARTISTS", () => GetOverallStockByArtists());
-            consoleMenu.Add(" >> GET MOST UNSELLED ALBUM BY ARTISTS", () => GetMostUnselledAlbumByArtists());
+            ConsoleMenu.Add(" >> GET AVERAGE ALBUM PRICE", () => GetAverageAlbumPrice());
+            ConsoleMenu.Add(" >> GET AVERAGE ALBUM PRICE BY GENRES", () => GetAverageAlbumPriceByGenres());
+            ConsoleMenu.Add(" >> GET AVERAGE ALBUM PRICE BY RECORD COMPANIES", () => GetAverageAlbumPriceByRecordCompanies());
+            ConsoleMenu.Add(" >> GET ALBUM COUNT BY COUNTRY", () => GetAlbumCountByCountry());
+            ConsoleMenu.Add(" >> GET OVERALL STOCK BY ARTISTS", () => GetOverallStockByArtists());
+            ConsoleMenu.Add(" >> GET MOST UNSELLED ALBUM BY ARTISTS", () => GetMostUnselledAlbumByArtists());
                             
-            consoleMenu.Add(" >> EXIT", ConsoleMenu.Close);
-        }
-
-        public void ShowConsoleMenu()
-        {
-            consoleMenu.Show();
-        }
-
-        private void ReturnToMainMenu()
-        {
-            Thread.Sleep(3000);
-
-            ShowConsoleMenu();
-        }
-
-        private void CreateAlbum()
-        {
-            string requestName = "album";
-
-            Console.Clear();
-            Console.Write("\nPlease enter the title of the album: ");
-
-            string title = Console.ReadLine();
-
-            Console.Write("\n\nPlease enter the price of the album: ");
-            string inputPrice = Console.ReadLine();
-
-            int price;
-
-            if (!int.TryParse(inputPrice, out price))
-            {
-                Console.Write("\n\nInvalid price has been entered, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
-            }
-
-            Console.Write("\n\nPlease enter the stock of the album: ");
-            string inputStock = Console.ReadLine();
-
-            int stock;
-
-            if (!int.TryParse(inputStock, out stock))
-            {
-                Console.Write("\n\nInvalid stock has been entered, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
-            }
-
-            Console.Write("\n\nPlease enter the ID of the artist of the album: ");
-            string inputArtistId = Console.ReadLine();
-
-            int artistId;
-
-            if (!int.TryParse(inputArtistId, out artistId))
-            {
-                Console.Write("\n\nInvalid artist ID has been entered, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
-            }
-
-            Artist artist = restService.GetSingle<Artist>($"artist\\{artistId}");
-
-            if (artist == null)
-            {
-                Console.Write("\n\nThere is no artist with this ID, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
-            }
-
-            Console.Write("\n\nPlease enter the ID of the record company of the album: ");
-            string inputRecordCompanyId = Console.ReadLine();
-
-            int recordCompanyId;
-
-            if (!int.TryParse(inputRecordCompanyId, out recordCompanyId))
-            {
-                Console.Write("\n\nInvalid record company ID has been entered, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
-            }
-
-            RecordCompany recordCompany = restService.GetSingle<RecordCompany>($"recordcompany\\{recordCompanyId}");
-
-            if (recordCompany == null)
-            {
-                Console.Write("\n\nThere is no record company with this ID, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
-            }
-
-            Album albumToCreate = new Album()
-            {
-                Title = title,
-                Price = price,
-                Stock = stock,
-                ArtistId = artistId,
-                RecordCompanyId = recordCompanyId
-            };
-
-            try
-            {
-                restService.Post<Album>(albumToCreate, requestName);
-            }
-            catch (ArgumentException)
-            {
-
-                Console.WriteLine("Invalid or empty title for album, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
-            }
-
-            Console.Write("\n\nThe album has been created!");
-
-            ReturnToMainMenu();
-
-            consoleMenu.Show();
-        }
-
-        private void CreateGenre()
-        {
-            string requestName = "genre";
-
-            Console.Clear();
-            Console.Write("\nPlease enter the name of the genre: ");
-
-            string genreName = Console.ReadLine();
-
-            Genre genreToCreate = new Genre()
-            {
-                Name = genreName
-            };
-
-            try
-            {
-                restService.Post<Genre>(genreToCreate, requestName);
-            }
-            catch (ArgumentException) 
-            { 
-                Console.WriteLine("Invalid or empty name for genre, please try again!");
-
-                ReturnToMainMenu();
-
-                return; 
-            }
-
-            Console.WriteLine("The genre has been created!");
-
-            ReturnToMainMenu();
-        }
-
-        private void CreateArtist()
-        {
-            string requestName = "artist";
-
-            Console.Clear();
-            Console.Write("\nPlease enter the name of the artist: ");
-
-            string artistName = Console.ReadLine();
-
-            Console.Write("\n\nPlease enter the country of the artist: ");
-            string countryName = Console.ReadLine();
-
-            if (string.IsNullOrEmpty(countryName))
-            {
-                Console.Write("\n\nIvalid or empty country name has been entered, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
-            }
-
-            Console.Write("\n\nPlease enter the ID of the genre of the artist: ");
-            string inputGenreId = Console.ReadLine();
-
-            int genreId;
-
-            if (!int.TryParse(inputGenreId, out genreId))
-            {
-                Console.Write("\n\nInvalid genre ID, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
-            }
-
-            Genre genre = restService.GetSingle<Genre>($"genre\\{genreId}");
-
-            if (genre == null)
-            {
-                Console.Write("\n\nThere is no genre with this ID, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
-            }
-
-            Artist artistToCreate = new Artist()
-            {
-                Name = artistName,
-                Country = countryName,
-                GenreId = genreId
-            };
-
-            try
-            {
-                restService.Post<Artist>(artistToCreate, requestName);
-            }
-            catch (ArgumentException)
-            {
-
-                Console.WriteLine("Invalid or empty name for artist, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
-            }
-
-            Console.WriteLine("The artist has been created!");
-
-            ReturnToMainMenu();
-        }
-
-        private void CreateRecordCompany()
-        {
-            string requestName = "recordcompany";
-
-            Console.Clear();
-            Console.Write("\nPlease enter the name of the record company: ");
-
-            string recordCompanyName = Console.ReadLine();
-
-            RecordCompany recordCompanyToCreate = new RecordCompany()
-            {
-                Name = recordCompanyName
-            };
-
-            try
-            {
-                restService.Post<RecordCompany>(recordCompanyToCreate, requestName);
-            }
-            catch (ArgumentException)
-            {
-
-                Console.WriteLine("Invalid or empty name for record company, please try again!");
-
-                ReturnToMainMenu();
-
-                return;
-            }
-            
-            Console.WriteLine("The record company has been created!");
-
-            Thread.Sleep(3000);
-
-            consoleMenu.Show();
+            ConsoleMenu.Add(" >> EXIT", ConsoleMenu.Close);
         }
 
         private void ReadRecordCompany()
