@@ -1,4 +1,5 @@
-﻿using ConsoleTools;
+﻿using System;
+using ConsoleTools;
 
 namespace D6PA5M_HFT_2021221.Client
 {
@@ -17,11 +18,20 @@ namespace D6PA5M_HFT_2021221.Client
                             DeleteAPIHelper deleteAPIHelper,
                             StatAPIHelper statAPIHelper) : base(consoleMenu)
         {
-            this.createAPIHelper = createAPIHelper;
-            this.readAPIHelper = readAPIHelper;
-            this.updateAPIHelper = updateAPIHelper;
-            this.deleteAPIHelper = deleteAPIHelper;
-            this.statAPIHelper = statAPIHelper;
+            this.createAPIHelper = 
+                createAPIHelper ?? throw new ArgumentNullException(nameof(createAPIHelper));
+
+            this.readAPIHelper =
+                readAPIHelper ?? throw new ArgumentNullException(nameof(readAPIHelper));
+
+            this.updateAPIHelper =
+                updateAPIHelper ?? throw new ArgumentNullException(nameof(updateAPIHelper));
+
+            this.deleteAPIHelper =
+                deleteAPIHelper ?? throw new ArgumentNullException(nameof(deleteAPIHelper));
+
+            this.statAPIHelper =
+                statAPIHelper ?? throw new ArgumentNullException(nameof(statAPIHelper));
 
             CreateConsoleMenu();
         }
