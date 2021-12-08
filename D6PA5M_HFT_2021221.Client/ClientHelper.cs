@@ -12,27 +12,24 @@ namespace D6PA5M_HFT_2021221.Client
 {
     public sealed class ClientHelper : ConsoleActionHelperBase
     {
-        private RestService restService;
         private CreateAPIHelper createAPIHelper;
         private ReadAPIHelper readAPIHelper;
         private UpdateAPIHelper updateAPIHelper;
         private DeleteAPIHelper deleteAPIHelper;
         private StatAPIHelper statAPIHelper;
 
-        public ClientHelper(CreateAPIHelper createAPIHelper, 
+        public ClientHelper(ConsoleMenu consoleMenu,
+                            CreateAPIHelper createAPIHelper, 
                             ReadAPIHelper readAPIHelper, 
                             UpdateAPIHelper updateAPIHelper,
                             DeleteAPIHelper deleteAPIHelper,
-                            StatAPIHelper statAPIHelper,
-                            ConsoleMenu consoleMenu, 
-                            RestService restService) : base(consoleMenu)
+                            StatAPIHelper statAPIHelper) : base(consoleMenu)
         {
             this.createAPIHelper = createAPIHelper;
             this.readAPIHelper = readAPIHelper;
             this.updateAPIHelper = updateAPIHelper;
             this.deleteAPIHelper = deleteAPIHelper;
             this.statAPIHelper = statAPIHelper;
-            this.restService = restService;
 
             CreateConsoleMenu();
         }
