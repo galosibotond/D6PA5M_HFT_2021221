@@ -13,6 +13,14 @@ namespace D6PA5M_HFT_2021221.Test
     [TestFixture]
     public class AlbumLogicTests
     {
+        private MockedRepositoryHelper mockedRepositoryHelper;
+
+        [OneTimeSetUp]
+        public void TestFixtureSetup()
+        {
+            mockedRepositoryHelper = new MockedRepositoryHelper();
+        }
+
 
         [Test]
         public void GivenNullAlbumRepository_WhenInstantiateAlbumLogic_ExceptionIsExpected()
@@ -34,8 +42,9 @@ namespace D6PA5M_HFT_2021221.Test
                 Price = 1990
             };
 
-            List<Album> albumsInRepository = GetAlbumsInRepository();
-            IAlbumRepository albumRepository = GetAlbumRepository(albumsInRepository, albumToDoModificationWith: albumToCreate);
+            List<Album> albumsInRepository = mockedRepositoryHelper.GetAlbumsInRepository();
+            IAlbumRepository albumRepository = 
+                mockedRepositoryHelper.GetAlbumRepository(albumsInRepository, albumToDoModificationWith: albumToCreate);
             IAlbumLogic albumLogic = new AlbumLogic(albumRepository);
 
             // Action
@@ -71,8 +80,8 @@ namespace D6PA5M_HFT_2021221.Test
             // Arrange
             int albumIdToRead = 0003;
 
-            List<Album> albumsInRepository = GetAlbumsInRepository();
-            IAlbumRepository albumRepository = GetAlbumRepository(albumsInRepository, albumIdToRead);
+            List<Album> albumsInRepository = mockedRepositoryHelper.GetAlbumsInRepository();
+            IAlbumRepository albumRepository = mockedRepositoryHelper.GetAlbumRepository(albumsInRepository, albumIdToRead);
             IAlbumLogic albumLogic = new AlbumLogic(albumRepository);
 
             // Action
@@ -87,8 +96,8 @@ namespace D6PA5M_HFT_2021221.Test
         public void GivenAlbumLogic_WhenReadAllAlbums_ThenAlbumsAreReadCorrectly()
         {
             // Arrange
-            List<Album> albumsInRepository = GetAlbumsInRepository();
-            IAlbumRepository albumRepository = GetAlbumRepository(albumsInRepository);
+            List<Album> albumsInRepository = mockedRepositoryHelper.GetAlbumsInRepository();
+            IAlbumRepository albumRepository = mockedRepositoryHelper.GetAlbumRepository(albumsInRepository);
             IAlbumLogic albumLogic = new AlbumLogic(albumRepository);
 
             // Action
@@ -104,8 +113,8 @@ namespace D6PA5M_HFT_2021221.Test
             // Arrange
             int albumIdToDelete = 0002;
 
-            List<Album> albumsInRepository = GetAlbumsInRepository();
-            IAlbumRepository albumRepository = GetAlbumRepository(albumsInRepository, albumIdToDelete);
+            List<Album> albumsInRepository = mockedRepositoryHelper.GetAlbumsInRepository();
+            IAlbumRepository albumRepository = mockedRepositoryHelper.GetAlbumRepository(albumsInRepository, albumIdToDelete);
             IAlbumLogic albumLogic = new AlbumLogic(albumRepository);
 
             // Action
@@ -129,8 +138,9 @@ namespace D6PA5M_HFT_2021221.Test
                 Price = 1990
             };
 
-            List<Album> albumsInRepository = GetAlbumsInRepository();
-            IAlbumRepository albumRepository = GetAlbumRepository(albumsInRepository, albumToDoModificationWith: albumToUpdate);
+            List<Album> albumsInRepository = mockedRepositoryHelper.GetAlbumsInRepository();
+            IAlbumRepository albumRepository = 
+                mockedRepositoryHelper.GetAlbumRepository(albumsInRepository, albumToDoModificationWith: albumToUpdate);
             IAlbumLogic albumLogic = new AlbumLogic(albumRepository);
 
             // Action
@@ -148,8 +158,8 @@ namespace D6PA5M_HFT_2021221.Test
         public void GivenAlbumLogic_WhenGetAlbumsCountByCountry_ThenCorrectValueReturnsToKey()
         {
             // Arrange
-            List<Album> albumsInRepository = GetAlbumsInRepository();
-            IAlbumRepository albumRepository = GetAlbumRepository(albumsInRepository);
+            List<Album> albumsInRepository = mockedRepositoryHelper.GetAlbumsInRepository();
+            IAlbumRepository albumRepository = mockedRepositoryHelper.GetAlbumRepository(albumsInRepository);
             IAlbumLogic albumLogic = new AlbumLogic(albumRepository);
 
             // Action
@@ -164,8 +174,8 @@ namespace D6PA5M_HFT_2021221.Test
         public void GivenAlbumLogic_WhenGetAverageAlbumPrice_ThenAverageAlbumPriceIsCorrect()
         {
             // Arrange
-            List<Album> albumsInRepository = GetAlbumsInRepository();
-            IAlbumRepository albumRepository = GetAlbumRepository(albumsInRepository);
+            List<Album> albumsInRepository = mockedRepositoryHelper.GetAlbumsInRepository();
+            IAlbumRepository albumRepository = mockedRepositoryHelper.GetAlbumRepository(albumsInRepository);
             IAlbumLogic albumLogic = new AlbumLogic(albumRepository);
 
             // Action
@@ -179,8 +189,8 @@ namespace D6PA5M_HFT_2021221.Test
         public void GivenAlbumLogic_WhenGetAverageAlbumPriceByGenres_ThenAverageAlbumPriceIsCorrectForKey()
         {
             // Arrange
-            List<Album> albumsInRepository = GetAlbumsInRepository();
-            IAlbumRepository albumRepository = GetAlbumRepository(albumsInRepository);
+            List<Album> albumsInRepository = mockedRepositoryHelper.GetAlbumsInRepository();
+            IAlbumRepository albumRepository = mockedRepositoryHelper.GetAlbumRepository(albumsInRepository);
             IAlbumLogic albumLogic = new AlbumLogic(albumRepository);
 
             // Action
@@ -195,8 +205,8 @@ namespace D6PA5M_HFT_2021221.Test
         public void GivenAlbumLogic_WhenGetAverageAlbumPriceByRecordCompany_ThenAverageAlbumPriceIsCorrectForKey()
         {
             // Arrange
-            List<Album> albumsInRepository = GetAlbumsInRepository();
-            IAlbumRepository albumRepository = GetAlbumRepository(albumsInRepository);
+            List<Album> albumsInRepository = mockedRepositoryHelper.GetAlbumsInRepository();
+            IAlbumRepository albumRepository = mockedRepositoryHelper.GetAlbumRepository(albumsInRepository);
             IAlbumLogic albumLogic = new AlbumLogic(albumRepository);
 
             // Action
@@ -206,142 +216,6 @@ namespace D6PA5M_HFT_2021221.Test
             // Assert
             Assert.That(averageAlbumPriceByRecordCompany.FirstOrDefault().Key, Is.EqualTo("FirstRecordCompany"));
             Assert.That(Math.Round(averageAlbumPriceByRecordCompany.FirstOrDefault().Value, 0), Is.EqualTo(2240));
-        }
-
-        private IAlbumRepository GetAlbumRepository(
-                                                      List<Album> albumsInRepository,
-                                                      int albumIdToDoModificationWith = 0,
-                                                      Album albumToDoModificationWith = null)
-        {
-            Mock<IAlbumRepository> albumRepositoryMock = new Mock<IAlbumRepository>();
-
-            albumRepositoryMock
-                .Setup(albumRepository => albumRepository.ReadAll())
-                .Returns(albumsInRepository.AsQueryable());
-
-            if (albumToDoModificationWith != null)
-            {
-                albumRepositoryMock
-                    .Setup(albumRepository => albumRepository.Create(albumToDoModificationWith))
-                    .Callback(() => albumsInRepository.Add(albumToDoModificationWith));
-
-                albumRepositoryMock
-                    .Setup(albumRepository => albumRepository.Update(albumToDoModificationWith))
-                    .Callback(() =>
-                    {
-                        int indexInList = albumsInRepository.FindIndex(artist => artist.Id == albumToDoModificationWith.Id);
-                        albumsInRepository.RemoveAt(indexInList);
-                        albumsInRepository.Add(albumToDoModificationWith);
-                    });
-            }
-
-            if (albumIdToDoModificationWith != 0)
-            {
-                albumRepositoryMock
-                    .Setup(albumRepository => albumRepository.Read(albumIdToDoModificationWith))
-                    .Returns(albumsInRepository.Where(artist => artist.Id == albumIdToDoModificationWith).FirstOrDefault());
-
-                albumRepositoryMock
-                    .Setup(albumRepository => albumRepository.Delete(albumIdToDoModificationWith))
-                    .Callback(() =>
-                    {
-                        int indexInList = albumsInRepository.FindIndex(artist => artist.Id == albumIdToDoModificationWith);
-                        albumsInRepository.RemoveAt(indexInList);
-                    });
-            }
-
-            return albumRepositoryMock.Object;
-        }
-
-        public List<Album> GetAlbumsInRepository()
-        {
-            Genre firstGenre = new Genre()
-            {
-                Name = "FirstGenre"
-            };
-
-            Genre secondGenre = new Genre()
-            {
-                Name = "SecondGenre"
-            };
-
-            Artist firstArtist = new Artist()
-            {
-                Name = "FirstArtist",
-                GenreId = 1001,
-                Country = "Hungary",
-                Genre = firstGenre
-            };
-
-            Artist secondArtist = new Artist()
-            {
-                Name = "SecondArtist",
-                GenreId = 1002,
-                Country = "USA",
-                Genre = secondGenre
-            };
-
-            RecordCompany firstRecordCompany = new RecordCompany()
-            {
-                Name = "FirstRecordCompany"
-            };
-
-            RecordCompany secondRecordCompany = new RecordCompany()
-            {
-                Name = "SecondRecordCompany"
-            };
-
-            RecordCompany thirdRecordCompany = new RecordCompany()
-            {
-                Name = "ThirdRecordCompany"
-            };
-
-            return new List<Album>
-            {
-                new Album()
-                {
-                    Id = 0001,
-                    Title = "FirstAlbum",
-                    Stock = 1000,
-                    RecordCompanyId = 0101,
-                    Artist = firstArtist,
-                    Price = 1990,
-                    RecordCompany = firstRecordCompany
-                },
-
-                new Album()
-                {
-                    Id = 0002,
-                    Title = "SecondAlbum",
-                    Stock = 150,
-                    RecordCompanyId = 0101,
-                    Artist = firstArtist,
-                    Price = 2490,
-                    RecordCompany = firstRecordCompany
-                },
-
-                new Album()
-                {
-                    Id = 0003,
-                    Title = "ThirdAlbum",
-                    Stock = 1000,
-                    RecordCompanyId = 0102,
-                    Artist = firstArtist,
-                    Price = 4990,
-                    RecordCompany = secondRecordCompany
-                },
-
-                new Album()
-                {
-                    Id = 0004,
-                    Title = "FourthAlbum",
-                    Stock = 3957,
-                    RecordCompanyId = 0103,
-                    Artist = secondArtist,
-                    Price = 2990,
-                    RecordCompany = thirdRecordCompany
-                }
-            };
         }
     }
 }
