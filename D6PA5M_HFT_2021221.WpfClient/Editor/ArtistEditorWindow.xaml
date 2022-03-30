@@ -1,0 +1,55 @@
+﻿<Window x:Class="D6PA5M_HFT_2021221.WpfClient.ArtistEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:D6PA5M_HFT_2021221.WpfClient"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="Artist Editor" Height="800" Width="1200">
+    <Window.DataContext>
+        <local:ArtistViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox ItemsSource="{Binding ArtistCollection}" SelectedItem="{Binding SelectedArtist}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Column="1">
+            <Label Content="Name" Background="LightBlue" Padding="10" />
+            <TextBox Text="{Binding SelectedArtist.Name}" Padding="10" Margin="0,0,0,10" />
+            <Label Content="Genre" Background="LightBlue" Padding="10" />
+            <TextBox Text="{Binding SelectedArtist.Genre.Name}" IsReadOnly="True" Padding="10" Margin="0,0,0,10" />
+            <Label Content="Foundation Date" Background="LightBlue" Padding="10" />
+            <DatePicker SelectedDate="{Binding
+                            Path=SelectedArtist.FoundationDate,
+                            Mode=TwoWay,
+                            TargetNullValue={x:Static System:DateTime.MinValue}}"
+                      DisplayDate="{Binding
+                            Path=SelectedArtist.FoundationDate,
+                            Mode=TwoWay,
+                            TargetNullValue={x:Static System:DateTime.MinValue}}"
+                      Padding="10" 
+                      Margin="0,0,0,10" />
+            <Label Content="Country" Background="LightBlue" Padding="10" />
+            <TextBox Text="{Binding SelectedArtist.Country}" Padding="10" Margin="0,0,0,15" />
+            <Button Content="Create Artist" Command="{Binding CreateArtistCommand}" Margin="5" Padding="10" />
+            <Button Content="Delete Artist" Command="{Binding DeleteArtistCommand}" Margin="5" Padding="10" />
+            <Button Content="Update Artist" Command="{Binding UpdateArtistCommand}" Margin="5" Padding="10" />
+            
+            <StackPanel Grid.Column="1" Margin="100">
+                <Button Name="albumEditorGotoButton" Content="Album Editor" Click="albumEditorGotoButton_Click" Margin="10" Padding="10" />
+                <Button Content="Genre Editor" Click="genreEditorGotoButton_Click" Margin="10" Padding="10" />
+                <Button Content="Record Company Editor" Click="recordCompanyEditorGotoButton_Click" Margin="10" Padding="10" />
+                <Label Content="{Binding ErrorMessage}" FontSize="18" Foreground="Red" HorizontalContentAlignment="Center" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

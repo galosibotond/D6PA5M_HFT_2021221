@@ -38,7 +38,6 @@ namespace D6PA5M_HFT_2021221.Repository
         public void Update(Album album)
         {
             var oldAlbum = Read(album.Id);
-            oldAlbum.Id = album.Id;
             oldAlbum.Title = album.Title;
             oldAlbum.Stock = album.Stock;
             oldAlbum.Price = album.Price;

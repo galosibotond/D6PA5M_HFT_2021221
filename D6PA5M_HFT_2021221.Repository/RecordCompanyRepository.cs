@@ -38,7 +38,6 @@ namespace D6PA5M_HFT_2021221.Repository
         public void Update(RecordCompany recordCompany)
         {
             var oldRecordCompany = Read(recordCompany.Id);
-            oldRecordCompany.Id = recordCompany.Id;
             oldRecordCompany.Name = recordCompany.Name;
             db.SaveChanges();
         }

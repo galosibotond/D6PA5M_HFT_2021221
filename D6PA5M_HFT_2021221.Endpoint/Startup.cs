@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using D6PA5M_HFT_2021221.Data;
+using D6PA5M_HFT_2021221.Endpoint.Services;
 using D6PA5M_HFT_2021221.Logic;
 using D6PA5M_HFT_2021221.Repository;
 using D6PA5M_HFT_2021221.Repository.Interfaces;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +29,8 @@ namespace D6PA5M_HFT_2021221.Endpoint
             services.AddTransient<IRecordCompanyRepository, RecordCompanyRepository>();
 
             services.AddTransient<AlbumStoreDbContext, AlbumStoreDbContext>();
+
+            services.AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -40,11 +40,24 @@ namespace D6PA5M_HFT_2021221.Endpoint
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseExceptionHandler(c => c.Run(async context =>
+            {
+                var exception = context.Features
+                    .Get<IExceptionHandlerPathFeature>()
+                    .Error;
+                var response = new { Msg = exception.Message };
+                await context.Response.WriteAsJsonAsync(response);
+            }));
+
+
             app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<SignalRHub>("/hub");
             });
         }
     }

@@ -38,8 +38,10 @@ namespace D6PA5M_HFT_2021221.Repository
         public void Update(Artist artist)
         {
             var oldArtist = Read(artist.Id);
-            oldArtist.Id = artist.Id;
             oldArtist.Name = artist.Name;
+            oldArtist.GenreId = artist.GenreId;
+            oldArtist.FoundationDate = artist.FoundationDate;
+            oldArtist.Country = artist.Country;
             db.SaveChanges();
         }
     }

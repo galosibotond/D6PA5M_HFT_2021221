@@ -38,7 +38,6 @@ namespace D6PA5M_HFT_2021221.Repository
         public void Update(Genre genre)
         {
             var oldGenre = Read(genre.Id);
-            oldGenre.Id = genre.Id;
             oldGenre.Name = genre.Name;
             db.SaveChanges();
         }
