@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Artist Web Editor</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <h1>Artist Catalog</h1>
+
+    <div id="formdiv">
+        <label>Artist Name</label>
+        <input type="text" id="artistName" />
+        <label>Foundation Date</label>
+        <input type="date" id="artistFoundationDate" />
+        <label>Country</label>
+        <input type="text" id="artistCountry" />
+        <div id="genreDiv"></div>
+        <button type="button" onclick="create()">Add Artist</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Genre</th>
+                <th>Country</th>
+                <th>Foundation Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="tableArea">
+        </tbody>
+    </table>
+
+    <a href="albumEditor.html">Album Catalog</a>
+    <a href="genreEditor.html">Genre Catalog</a>
+    <a href="recordCompanyEditor.html">Record Company Catalog</a>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+    <script src="artistScript.js"></script>
+</body>
+</html>

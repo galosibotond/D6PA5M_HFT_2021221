@@ -16,8 +16,6 @@ namespace D6PA5M_HFT_2021221.Endpoint
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
             services.AddTransient<IArtistLogic, ArtistLogic>();
             services.AddTransient<IAlbumLogic, AlbumLogic>();
             services.AddTransient<IGenreLogic, GenreLogic>();
@@ -31,6 +29,8 @@ namespace D6PA5M_HFT_2021221.Endpoint
             services.AddTransient<AlbumStoreDbContext, AlbumStoreDbContext>();
 
             services.AddSignalR();
+
+            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -49,6 +49,11 @@ namespace D6PA5M_HFT_2021221.Endpoint
                 await context.Response.WriteAsJsonAsync(response);
             }));
 
+            app.UseCors(x => x
+                .AllowCredentials()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithOrigins("http://localhost:43173"));
 
             app.UseRouting();
 

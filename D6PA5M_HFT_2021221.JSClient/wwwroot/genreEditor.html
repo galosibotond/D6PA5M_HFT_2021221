@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Genre Web Editor</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <h1>Genre Catalog</h1>
+
+    <div id="formdiv">
+        <label>Genre Name</label>
+        <input type="text" id="genreName" />
+        <button type="button" onclick="create()">Add Genre</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="tableArea">
+        </tbody>
+    </table>
+
+    <a href="artistEditor.html">Artist Catalog</a>
+    <a href="albumEditor.html">Album Catalog</a>
+    <a href="recordCompanyEditor.html">Record Company Catalog</a>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+    <script src="genreScript.js"></script>
+</body>
+</html>

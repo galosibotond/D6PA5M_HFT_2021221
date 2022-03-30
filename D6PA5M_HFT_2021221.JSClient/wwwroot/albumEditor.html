@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Album Web Editor</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <h1>Album Catalog</h1>
+
+    <div id="formdiv">
+        <label>Album Title</label>
+        <input type="text" id="albumTitle" />
+        <label>Artist Name</label>
+        <input type="text" id="albumArtistName" />
+        <label>Release Date</label>
+        <input type="date" id="albumReleaseDate" />
+        <label>Record Company</label>
+        <input type="text" id="albumRecordCompany" />
+        <label>Price</label>
+        <input type="text" id="albumPrice" />
+        <label>Stock</label>
+        <input type="text" id="albumStock" />
+        <button type="button" onclick="create()">Add Album</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Release Date</th>
+                <th>Record Company</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="tableArea">
+        </tbody>
+    </table>
+
+    <a href="artistEditor.html">Artist Catalog</a>
+    <a href="genreEditor.html">Genre Catalog</a>
+    <a href="recordCompanyEditor.html">Record Company Catalog</a>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+    <script src="albumScript.js"></script>
+</body>
+</html>
