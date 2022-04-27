@@ -17,6 +17,10 @@ function setupSignalR() {
         getdata();
     });
 
+    connection.on("GenreUpdated", (user, message) => {
+        getdata();
+    });
+
     connection.onclose(async () => {
         await start();
     });
@@ -50,8 +54,9 @@ function display() {
         document.getElementById('tableArea').innerHTML +=
             "<tr><td>" + t.id + "</td><td>" +
             t.name + "</td><td>" +
-            `<button type="button" onclick="remove(${t.id})">Delete</button>` +
-            "</td></tr>";
+        `<button name="deleteButton" type="button" onclick="remove(${t.id})">Delete</button>` +
+        `<button name="updateButton" type="button" onclick="update(${t.id})">Update</button>` +
+        "</td></tr>";
     });
 }
 
@@ -67,6 +72,32 @@ function remove(id) {
             getdata();
         })
         .catch((error) => { console.error('Error:', error); });
+
+}
+
+function update(id) {
+    let genreIndex = genres.findIndex(genre => genre.id == id);
+    let oldGenre = genres[genreIndex];
+    let newName = prompt("Updated genre name:", oldGenre.name);
+    if (newName != null && newName != "") {
+        fetch('http://localhost:36957/genre', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', },
+            body: JSON.stringify({
+                id: oldGenre.id,
+                name: newName
+            })
+        })
+            .then(response => response)
+            .then(data => {
+                console.log('Success:', data);
+                getdata();
+            })
+            .catch((error) => { console.error('Error:', error); });
+    }
+    else {
+        alert("You did not provided a new genre name, please try again!")
+    }
 
 }
 
